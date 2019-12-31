@@ -74,8 +74,9 @@ class Listener extends EventEmitter {
   public Start() {
     this._RoomListener = new RoomListener()
     this._RoomListener
-      .on('SYS_MSG', dataJson => this._RaffleCheck(dataJson))
-      .on('SYS_GIFT', dataJson => this._RaffleCheck(dataJson))
+      // .on('SYS_MSG', dataJson => this._RaffleCheck(dataJson))
+      // .on('SYS_GIFT', dataJson => this._RaffleCheck(dataJson))
+      .on('NOTICE_MSG',dataJson => this._RaffleCheck(dataJson))
       .on('raffle', (raffleMessage: raffleMessage) => this._RaffleHandler(raffleMessage))
       .on('lottery', (lotteryMessage: lotteryMessage) => this._RaffleHandler(lotteryMessage))
       .on('pklottery', (lotteryMessage: lotteryMessage) => this._RaffleHandler(lotteryMessage))
@@ -110,12 +111,12 @@ class Listener extends EventEmitter {
     let query2 = Set2 === undefined ? [] : [...Set2]
     if (query2.length > 0 && query2[0].toString().length > 6) // For beatStorm IDs
       for (let i = 0; i < query2.length; i++) query2[i] = Number(query2[i].toString().slice(0, -6))
-    let query = query1.concat(query2).sort(function(a, b){return a - b})
+    let query = query1.concat(query2).sort(function (a, b) { return a - b })
     let Start: number = 0
     let End: number = 0
     if (query.length > 0) {
       Start = query[0]
-      End = query[query.length-1]
+      End = query[query.length - 1]
     }
     let Misses = End - Start + 1 - query.length
     if (query.length === 0) Misses -= 1
@@ -172,9 +173,10 @@ class Listener extends EventEmitter {
    * @param {(SYS_MSG | SYS_GIFT)} dataJson
    * @memberof Listener
    */
-  private async _RaffleCheck(dataJson: SYS_MSG | SYS_GIFT) {
-    if (dataJson.real_roomid === undefined || this._MSGCache.has(dataJson.msg_text)) return
-    this._MSGCache.add(dataJson.msg_text)
+  private async _RaffleCheck(dataJson: NOTICE_MSG) {
+    if (dataJson.real_roomid === undefined || this._MSGCache.has(dataJson.msg_common)) return
+    if (dataJson.link_url.indexOf("live_lottery_type=1") < 0) return
+    this._MSGCache.add(dataJson.msg_common)
     const roomID = dataJson.real_roomid
     // 等待3s, 防止土豪刷屏
     await tools.Sleep(3000)
