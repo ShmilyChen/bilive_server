@@ -21,7 +21,7 @@ interface server {
   netkey: string
 }
 interface config {
-  [index: string]: number | boolean | string | string[]
+  [index: string]: number | boolean | string | string[] | number[]
   dbTime: number
   globalListener: boolean
   globalListenNum: number

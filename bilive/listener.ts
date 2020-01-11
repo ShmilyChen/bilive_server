@@ -203,7 +203,7 @@ class Listener extends EventEmitter {
   }
   private async _RaffleCheckTest(dataJson: NOTICE_MSG) {
     if (dataJson.real_roomid === undefined || this._MSGCache.has(dataJson.msg_common)) return
-    if (dataJson.msg_type !== 2) return
+    if (!dataJson.link_url.includes("live_lottery_type=1")) return
     this._MSGCache.add(dataJson.msg_common)
     const roomID = dataJson.real_roomid
     // 等待3s, 防止土豪刷屏
