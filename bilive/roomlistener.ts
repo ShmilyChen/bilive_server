@@ -178,6 +178,7 @@ class RoomListener extends EventEmitter {
     commentClient
       .on('SYS_MSG', dataJson => this.emit('SYS_MSG', dataJson))
       .on('SYS_GIFT', dataJson => this.emit('SYS_GIFT', dataJson))
+      .on('NOTICE_MSG', dataJson => this.emit('NOTICE_MSG', dataJson))
       .on('TV_START', dataJson => this._RaffleStartHandler(dataJson))
       .on('RAFFLE_START', dataJson => this._RaffleStartHandler(dataJson))
       .on('LOTTERY_START', dataJson => this._LotteryStartHandler(dataJson))
@@ -209,6 +210,7 @@ class RoomListener extends EventEmitter {
     commentClient
       .on('SYS_MSG', dataJson => this.emit('SYS_MSG', dataJson))
       .on('SYS_GIFT', dataJson => this.emit('SYS_GIFT', dataJson))
+      .on('NOTICE_MSG', dataJson => this.emit('NOTICE_MSG', dataJson))
       .on('TV_START', dataJson => this._RaffleStartHandler(dataJson))
       .on('RAFFLE_START', dataJson => this._RaffleStartHandler(dataJson))
       .on('LOTTERY_START', dataJson => this._LotteryStartHandler(dataJson, '2'))
@@ -385,7 +387,7 @@ interface allRooms {
 }
 interface allRoomsData {
   uid: number
-  roomid: number 
+  roomid: number
 }
 
 export default RoomListener

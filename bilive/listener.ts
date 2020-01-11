@@ -76,7 +76,7 @@ class Listener extends EventEmitter {
     this._RoomListener
       .on('SYS_MSG', dataJson => this._RaffleCheck(dataJson))
       .on('SYS_GIFT', dataJson => this._RaffleCheck(dataJson))
-      .on('NOTICE_MSG',dataJson => this._RaffleCheckTest(dataJson))
+      .on('NOTICE_MSG', dataJson => this._RaffleCheckTest(dataJson))
       .on('raffle', (raffleMessage: raffleMessage) => this._RaffleHandler(raffleMessage))
       .on('lottery', (lotteryMessage: lotteryMessage) => this._RaffleHandler(lotteryMessage))
       .on('pklottery', (lotteryMessage: lotteryMessage) => this._RaffleHandler(lotteryMessage))
@@ -203,7 +203,7 @@ class Listener extends EventEmitter {
   }
   private async _RaffleCheckTest(dataJson: NOTICE_MSG) {
     if (dataJson.real_roomid === undefined || this._MSGCache.has(dataJson.msg_common)) return
-    if (dataJson.link_url.indexOf("live_lottery_type=1") < 0) return
+    if (dataJson.msg_type !== 2) return
     this._MSGCache.add(dataJson.msg_common)
     const roomID = dataJson.real_roomid
     // 等待3s, 防止土豪刷屏
