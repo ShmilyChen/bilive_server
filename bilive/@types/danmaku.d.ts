@@ -544,9 +544,15 @@ interface RAFFLE_END_data_win {
  * @extends {danmuJson}
  */
 /**
+ * msg_type
+ * 1 通知
+ * 2 抽奖
+ */
+/**
  * business_id类型
  * 小电视飞船:"25"
  * BLS盛典:"30424"
+ * 
  */
 interface NOTICE_MSG extends danmuJson {
   full: NOTICE_MSG_style

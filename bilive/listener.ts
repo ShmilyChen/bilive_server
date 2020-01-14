@@ -76,7 +76,7 @@ class Listener extends EventEmitter {
     this._RoomListener
       .on('SYS_MSG', dataJson => this._RaffleCheck(dataJson))
       .on('SYS_GIFT', dataJson => this._RaffleCheck(dataJson))
-      .on('NOTICE_MSG', dataJson => this._RaffleCheckTest(dataJson))
+      .on('NOTICE_MSG', dataJson => this._Check_NOTICE_MSG(dataJson))
       .on('raffle', (raffleMessage: raffleMessage) => this._RaffleHandler(raffleMessage))
       .on('lottery', (lotteryMessage: lotteryMessage) => this._RaffleHandler(lotteryMessage))
       .on('pklottery', (lotteryMessage: lotteryMessage) => this._RaffleHandler(lotteryMessage))
@@ -143,7 +143,7 @@ class Listener extends EventEmitter {
     const dailyLotteryMissRate = 100 * dailyLotteryMiss / (dailyAllLottery === 0 ? 1 : dailyAllLottery)
     let logMsg: string = '\n'
     logMsg += `/********************************* bilive_server 运行信息 *********************************/\n`
-    logMsg += `本次监听开始于：${new Date(this._ListenStartTime).toString()}\n`
+    logMsg += `本次监听开始于：${tools.format("yyyy-m-d H:M:S", new Date(this._ListenStartTime))}\n`
     logMsg += `已监听房间数：${this._RoomListener.roomListSize()}\n`
     logMsg += `共监听到raffle抽奖数：${this._raffleID.size}(${this._dailyRaffleID.size})\n`
     logMsg += `共监听到lottery抽奖数：${this._lotteryID.size}(${this._dailyLotteryID.size})\n`
@@ -201,10 +201,10 @@ class Listener extends EventEmitter {
       })
     }
   }
-  private async _RaffleCheckTest(dataJson: NOTICE_MSG) {
-    if (dataJson.real_roomid === undefined || this._MSGCache.has(dataJson.msg_common)) return
-    if (!dataJson.link_url.includes("live_lottery_type=1")) return
-    this._MSGCache.add(dataJson.msg_common)
+  private async _Check_NOTICE_MSG(dataJson: NOTICE_MSG) {
+    if (dataJson.real_roomid === undefined || this._MSGCache.has(dataJson.msg_self)) return
+    if (dataJson.msg_type === 1) return
+    this._MSGCache.add(dataJson.msg_self)
     const roomID = dataJson.real_roomid
     // 等待3s, 防止土豪刷屏
     await tools.Sleep(3000)
