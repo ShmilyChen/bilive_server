@@ -273,7 +273,7 @@ class RoomListener extends EventEmitter {
       roomID: dataJson._roomid,
       id: +dataJson.data.id,
       type: dataJson.data.type,
-      title: '舰队抽奖',
+      title: `${dataJson.data.type === "1" ? "总督" : dataJson.data.type === "2" ? "提督" : dataJson.data.type === "3" ? "舰长" : "舰队"}抽奖`,
       time: +dataJson.data.lottery.time
     }
     this.emit(`lottery${source}`, lotteryMessage)

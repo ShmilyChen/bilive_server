@@ -214,20 +214,35 @@ class Listener extends EventEmitter {
     }
     const lotteryInfo = await tools.XHR<lotteryInfo>(_lotteryInfo, 'Android')
     if (lotteryInfo !== undefined && lotteryInfo.response.statusCode === 200
-      && lotteryInfo.body.code === 0 && lotteryInfo.body.data.gift_list.length > 0) {
-      lotteryInfo.body.data.gift_list.forEach(data => {
-        const message: message = {
-          cmd: 'raffle',
-          roomID,
-          id: +data.raffleId,
-          type: data.type,
-          title: data.title,
-          time: +data.time_wait,
-          max_time: +data.max_time,
-          time_wait: +data.time_wait
-        }
-        this._RaffleHandler(message)
-      })
+      && lotteryInfo.body.code === 0) {
+      if (lotteryInfo.body.data.gift_list.length > 0) {
+        lotteryInfo.body.data.gift_list.forEach(data => {
+          const message: message = {
+            cmd: 'raffle',
+            roomID,
+            id: +data.raffleId,
+            type: data.type,
+            title: data.title,
+            time: +data.time_wait,
+            max_time: +data.max_time,
+            time_wait: +data.time_wait
+          }
+          this._RaffleHandler(message)
+        })
+      }
+      if (lotteryInfo.body.data.guard.length > 0) {
+        lotteryInfo.body.data.guard.forEach(data => {
+          const message: message = {
+            cmd: 'lottery',
+            roomID: roomID,
+            id: +data.id,
+            type: data.privilege_type + "",
+            title: `${data.privilege_type === 1 ? "总督" : data.privilege_type === 2 ? "提督" : data.privilege_type === 3 ? "舰长" : "舰队"}抽奖`,
+            time: +data.time
+          }
+          this._RaffleHandler(message)
+        })
+      }
     }
   }
   /**
