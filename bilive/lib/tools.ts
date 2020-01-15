@@ -176,7 +176,7 @@ class Tools extends EventEmitter {
    */
   public Log(...message: any[]) {
     // const log = util.format(`${this.Date()} :`, ...message)
-    const log = util.format(`${this.format("yyyy-m-d H:M:S")} :`, ...message)
+    const log = util.format(`${this.format("yyyy-mm-dd HH:MM:SS")} :`, ...message)
     if (this.logs.length > 500) this.logs.shift()
     this.emit('log', log)
     this.logs.push(log)

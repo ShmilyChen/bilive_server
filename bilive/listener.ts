@@ -143,7 +143,7 @@ class Listener extends EventEmitter {
     const dailyLotteryMissRate = 100 * dailyLotteryMiss / (dailyAllLottery === 0 ? 1 : dailyAllLottery)
     let logMsg: string = '\n'
     logMsg += `/********************************* bilive_server 运行信息 *********************************/\n`
-    logMsg += `本次监听开始于：${tools.format("yyyy-m-d H:M:S", new Date(this._ListenStartTime))}\n`
+    logMsg += `本次监听开始于：${tools.format("yyyy-mm-dd HH:MM:SS", new Date(this._ListenStartTime))}\n`
     logMsg += `已监听房间数：${this._RoomListener.roomListSize()}\n`
     logMsg += `共监听到raffle抽奖数：${this._raffleID.size}(${this._dailyRaffleID.size})\n`
     logMsg += `共监听到lottery抽奖数：${this._lotteryID.size}(${this._dailyLotteryID.size})\n`

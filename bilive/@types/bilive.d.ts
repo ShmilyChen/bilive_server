@@ -340,7 +340,7 @@ interface lotteryMessage {
   cmd: 'lottery' | 'pklottery'
   roomID: number
   id: number
-  type: string
+  type: string | number
   title: string
   time: number
 }

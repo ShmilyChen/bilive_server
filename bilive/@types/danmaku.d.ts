@@ -562,7 +562,7 @@ interface NOTICE_MSG extends danmuJson {
   msg_self: string
   link_url: string
   msg_type: number
-  business_id:string
+  business_id: string
 }
 interface NOTICE_MSG_style {
   head_icon: string
@@ -657,6 +657,8 @@ interface LOTTERY_START_data {
   link: string
   /* 抽奖信息 */
   lottery: LOTTERY_START_data_lottery
+  /* 舰队类型 */
+  privilege_type: number
 }
 interface LOTTERY_START_data_lottery {
   /* 编号 */
