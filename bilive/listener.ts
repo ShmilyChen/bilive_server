@@ -217,7 +217,7 @@ class Listener extends EventEmitter {
       && lotteryInfo.body.code === 0) {
       if (lotteryInfo.body.data.gift_list.length > 0) {
         lotteryInfo.body.data.gift_list.forEach(data => {
-          const message: message = {
+          const raffleMessage: raffleMessage = {
             cmd: 'raffle',
             roomID,
             id: +data.raffleId,
@@ -227,20 +227,20 @@ class Listener extends EventEmitter {
             max_time: +data.max_time,
             time_wait: +data.time_wait
           }
-          this._RaffleHandler(message)
+          this._RaffleHandler(raffleMessage)
         })
       }
       if (lotteryInfo.body.data.guard.length > 0) {
         lotteryInfo.body.data.guard.forEach(data => {
-          const message: message = {
+          const lotteryMessage: lotteryMessage = {
             cmd: 'lottery',
             roomID: roomID,
             id: +data.id,
-            type: data.privilege_type + "",
+            type: "guard",
             title: `${data.privilege_type === 1 ? "总督" : data.privilege_type === 2 ? "提督" : data.privilege_type === 3 ? "舰长" : "舰队"}抽奖`,
             time: +data.time
           }
-          this._RaffleHandler(message)
+          this._RaffleHandler(lotteryMessage)
         })
       }
     }
